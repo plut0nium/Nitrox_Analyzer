@@ -245,9 +245,6 @@ void loop()
 		batteryVoltage *= (10 * 2);
 		batteryVoltage /= 31;
 		batteryVoltage *= 10;
-#ifdef DEBUG
-		Serial.print("Battery: "); Serial.println(batteryVoltage);
-#endif
 		batteryTimer = millis();
 	}
 
@@ -282,6 +279,7 @@ void loop()
 				Serial.print("ADC reading:      "); Serial.println(readings.getAverage());
 				Serial.print("Sensor µV:        "); Serial.println(sensorMicroVolts);
 				Serial.print("O2 concentration: "); Serial.println(oxygenConcentration);
+				Serial.print("Battery:          "); Serial.println(batteryVoltage);
 				tone(BUZZER_PIN,4000,500);
 				break;
 #endif
