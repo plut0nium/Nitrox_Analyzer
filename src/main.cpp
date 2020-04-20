@@ -255,6 +255,9 @@ void loop()
 				state = STATE_ANALYZE;
 				updateDisplay = true;
 				displayTimer = millis();
+#ifdef BUZZER_ENABLE
+				tone(BUZZER_PIN,4000,200);
+#endif
 			}
 			break;
 		case STATE_ANALYZE:
@@ -268,6 +271,9 @@ void loop()
 				else {
 					state = STATE_ANALYZE;
 				}
+#ifdef BUZZER_ENABLE
+				tone(BUZZER_PIN,2000,200);
+#endif
 				break;
 			case ClickEncoder::Held:
 				state = STATE_CALIBRATE_MENU;
@@ -280,7 +286,9 @@ void loop()
 				Serial.print("Sensor µV:        "); Serial.println(sensorMicroVolts);
 				Serial.print("O2 concentration: "); Serial.println(oxygenConcentration);
 				Serial.print("Battery:          "); Serial.println(batteryVoltage);
+	#ifdef BUZZER_ENABLE
 				tone(BUZZER_PIN,4000,500);
+	#endif
 				break;
 #endif
 			}
@@ -381,10 +389,16 @@ void loop()
 #endif
 				state = STATE_ANALYZE;
 				updateDisplay = true;
+#ifdef BUZZER_ENABLE
+				tone(BUZZER_PIN,3000,500);
+#endif
 			}
 			// render
 			break;
 		case STATE_ERROR:
+#ifdef BUZZER_ENABLE
+			tone(BUZZER_PIN,1000,1000);
+#endif
 			// TODO
 			break;
 	}

@@ -28,6 +28,7 @@
 #define ENC_STEPS   4
 
 // BUZZER
+#define BUZZER_ENABLE
 #define BUZZER_PIN	8
 
 // EEPROM
