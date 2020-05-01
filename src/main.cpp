@@ -182,7 +182,7 @@ void setup()
 {
 #ifdef DEBUG
 	Serial.begin(19200);
-	Serial.println("*\n* Nitrox Analyser - DEBUG\n*");
+	Serial.println(F("*\n* Nitrox Analyser - DEBUG\n*"));
 #endif
 	Wire.begin();
 
@@ -195,7 +195,7 @@ void setup()
 	ads.setMux(MUX_DIFF_0_1);  // sensor is connected between AIN0 (P) and AIN1 (N)
 	ads.writeConfig();
 #ifdef DEBUG
-	Serial.print("ADS config: ");
+	Serial.print(F("ADS config: "));
 	Serial.println(ads.readConfig());
 #endif
 	ads.startContinuousConversion();
@@ -218,7 +218,7 @@ void setup()
 	// Load last calibration factor
 	EEPROM.get(EEPROM_CALIBRATION_ADDRESS, calibrationFactor);
 #ifdef DEBUG
-	Serial.print("EEPROM load: "); Serial.println(calibrationFactor);
+	Serial.print(F("EEPROM load: ")); Serial.println(calibrationFactor);
 #endif
 #endif
 }
@@ -235,10 +235,10 @@ void loop()
 	encPosPrev = encPos;
 #ifdef DEBUG
 	if (buttonState != 0) {
-		Serial.print("Button: "); Serial.println(buttonState);
+		Serial.print(F("Button: ")); Serial.println(buttonState);
 	}
 	if (encDelta != 0) {
-		Serial.print("Encoder: "); Serial.println(encDelta);
+		Serial.print(F("Encoder: ")); Serial.println(encDelta);
 	}
 #endif
 
@@ -297,10 +297,11 @@ void loop()
 				break;
 #ifdef DEBUG
 			case ClickEncoder::DoubleClicked: //6
-				Serial.print("ADC reading:      "); Serial.println(readings.getAverage());
-				Serial.print("Sensor µV:        "); Serial.println(sensorMicroVolts);
-				Serial.print("O2 concentration: "); Serial.println(oxygenConcentration);
-				Serial.print("Battery:          "); Serial.println(batteryVoltage);
+				Serial.print(F("ADC reading:      ")); Serial.println(readings.getAverage());
+				Serial.print(F("Sensor µV:        ")); Serial.println(sensorMicroVolts);
+				Serial.print(F("Calib. factor:    ")); Serial.println(calibrationFactor);
+				Serial.print(F("O2 concentration: ")); Serial.println(oxygenConcentration);
+				Serial.print(F("Battery:          ")); Serial.println(batteryVoltage);
 	#ifdef BUZZER_ENABLE
 				tone(BUZZER_PIN,4000,500);
 	#endif
@@ -392,14 +393,14 @@ void loop()
 				int32_t sensorMicroVolts = ((int32_t)readings.getAverage() * 7812L) / 1000L;
 				calibrationFactor = (int16_t)((sensorMicroVolts * 1000L) / 2095L);
 #ifdef DEBUG
-				Serial.println("Calibration complete");
-				Serial.print("Sensor: "); Serial.print(sensorMicroVolts); Serial.println(" µV");
-				Serial.print("Calibration factor:"); Serial.println(calibrationFactor);
+				Serial.println(F("Calibration complete"));
+				Serial.print(F("Sensor: ")); Serial.print(sensorMicroVolts); Serial.println(F(" µV"));
+				Serial.print(F("Calibration factor:")); Serial.println(calibrationFactor);
 #endif
 #ifdef EEPROM_ENABLE
 				EEPROM.put(EEPROM_CALIBRATION_ADDRESS, calibrationFactor);
 	#ifdef DEBUG
-				Serial.println("Saved to EEPROM");
+				Serial.println(F("Saved to EEPROM"));
 	#endif
 #endif
 				state = STATE_ANALYZE;
