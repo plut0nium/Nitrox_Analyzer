@@ -78,6 +78,7 @@ int16_t calibrationFactor = 0; // unit is [1e-1 µV / %], value should be ~5000
 int16_t oxygenConcentration = 0;
 int32_t sensorMicroVolts;
 char displayFooterBuffer[24];
+bool batteryWarning = false;
 
 
 // Main render function
@@ -85,6 +86,17 @@ void renderDisplay()
 {
 	u8g2.firstPage();
 	do {
+		if (batteryWarning) {
+			u8g2.setFont(u8g2_font_6x13_tr);
+			u8g2.drawBox(118,0,10,12);
+			u8g2.setFontMode(1); // transparent background
+			u8g2.setDrawColor(2); // XOR
+			u8g2.setCursor(120,10);
+			u8g2.print(F("B"));
+			// reset drawing modes
+			u8g2.setFontMode(0);
+			u8g2.setDrawColor(1);
+		}
 		switch(state) {
 		case STATE_START_SCREEN:
 			// TODO: Add Graphics ?
@@ -245,6 +257,9 @@ void loop()
 		batteryVoltage *= (10 * 2);
 		batteryVoltage /= 31;
 		batteryVoltage *= 10;
+		if (batteryVoltage <= BATTERY_THRESHOLD) {
+			batteryWarning = true;
+		}
 		batteryTimer = millis();
 	}
 

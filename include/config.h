@@ -20,6 +20,7 @@
 #define SAMPLE_SIZE             20u  // nb of values to be averaged
 #define CALIBRATION_TIME        6000 // ms - should be > ANALYZE_INTERVAL * SAMPLE_SIZE
 #define BATTERY_INTERVAL        5000
+#define BATTERY_THRESHOLD       3500 // mV
 
 // ENCODER
 #define ENC_PIN_A   2
