@@ -397,7 +397,7 @@ void loop()
 			break;
 		case STATE_ERROR:
 #ifdef BUZZER_ENABLE
-			tone(BUZZER_PIN,1000,1000);
+//			tone(BUZZER_PIN,1000,1000); // would beep continuously - should be activated when entering error mode
 #endif
 			// TODO
 			break;
